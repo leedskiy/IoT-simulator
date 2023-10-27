@@ -3,11 +3,11 @@ class IoTDevice:
         self.__id = id
         self.__status = False
     
-    def getStatus(self):
+    def get_status(self):
         return self.__status
     
-    def setStatus(self, status):
+    def set_status(self, status):
         self.__status = status
 
-    def getId(self):
+    def get_id(self):
         return self.__id

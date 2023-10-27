@@ -1,8 +1,8 @@
 from IoTDevice import IoTDevice
 
 class SecurityCamera(IoTDevice):
-    def __init__(self, id, securityStatus):
+    def __init__(self, id, security_status):
         super().__init__(id)
-        self.__securityStatus = securityStatus
+        self.__security_status = security_status
     
     
