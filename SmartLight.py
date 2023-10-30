@@ -19,8 +19,3 @@ class SmartLight(IoTDevice):
 
     def gradualDimming(self):
         pass
-
-sm = SmartLight(1, 10)
-sm.set_status(Status.Off)
-# sm.set_brightness(20)
-print(sm.get_status())
