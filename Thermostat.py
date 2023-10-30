@@ -22,8 +22,8 @@ class Thermostat(IoTDevice):
         self.__max_temp = max_temp
 
     def set_temperature(self, temperature):
-        if self_status == Status.Off:
-            self_status == Status.On
+        if self._status == Status.Off:
+            self._status == Status.On
         
         if(self.__min_temp <= temperature and self.__max_temp >= temperature):
             self.__temperature = temperature
@@ -31,8 +31,8 @@ class Thermostat(IoTDevice):
             print(f"Error. Temperature must be between {__min_temp} and {__max_temp}")
 
     def adjust_temperature(self, temperature):
-        if self_status == Status.Off:
-            self_status == Status.On
+        if self._status == Status.Off:
+            self._status == Status.On
         
         new_temp = temperature + self.__temperature
         
