@@ -3,12 +3,13 @@ from tkinter import *
 from AutomationSystem import AutomationSystem
 import threading
 import time
+from Status import Status
 
 class App():
     def __init__(self):
         # AutomationSystem
         self.asys = AutomationSystem()
-        self.asys.addDevices()
+        self.asys.add_devices()
         
         # root and frame
         self.root = tk.Tk()
@@ -20,6 +21,7 @@ class App():
 
         # automation
         self.automation_running = False
+        self.update_gui()
         automationButton = Button(self.mainframe, text="Automation ON/OFF", 
             command=self.on_off_automation, padx=10, pady=10)
         automationButton.pack()
@@ -30,7 +32,9 @@ class App():
 
         # status box
         self.status_box = Text(self.mainframe, height = 3, width = 40, padx=10, pady=10)
-        self.status_text = "Living room light status: OFF\nLiving room thermostat status: OFF\nFront door status: OFF"
+        self.status_text = ("Living room light status: OFF\n" +
+                            "Living room thermostat status: OFF\n" + 
+                            "Front door status: OFF")
         self.status_box.insert("1.0", self.status_text)
         self.status_box.pack()
         
@@ -50,6 +54,7 @@ class App():
     def call_exec_automation_tasks(self):
         while self.automation_running:
             self.asys.exec_automation_tasks()
+            self.update_status_box()
             time.sleep(1)
     
     def on_closing(self):
@@ -57,6 +62,22 @@ class App():
             self.automation_running = False
             self.loop_thread.join()
         self.root.destroy()
+
+    def update_gui(self):
+        if self.automation_running:
+            self.asys.exec_automation_tasks()
+            self.update_status_box()
+        self.root.after(1000, self.update_gui)
+
+    # status box
+    def update_status_box(self):
+        devices = self.asys.get_devices()
+        self.status_text = (f"Living room light status: {'ON' if devices[0].get_status() == Status.On else 'OFF'}\n" + 
+                            f"Living room thermostat status: {'ON' if devices[1].get_status() == Status.On else 'OFF'}\n" +
+                            f"Front door status: {'ON' if devices[2].get_status() == Status.On else 'OFF'}")
+        self.status_box.delete("1.0", "end")
+        self.status_box.insert("1.0", self.status_text)
+
 
 if __name__ == '__main__':
     App()

@@ -13,7 +13,10 @@ class AutomationSystem:
         self.__devices = []
         self.__sensor_data = []
     
-    def addDevices(self):
+    def get_devices(self):
+        return self.__devices
+
+    def add_devices(self):
         sl = SmartLight(0, 0)
         th = Thermostat(1, 0, 10, 27)
         sc = SecurityCamera(2, "secure")
