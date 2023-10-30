@@ -1,4 +1,5 @@
 from IoTDevice import IoTDevice
+from Status import Status
 
 class SecurityCamera(IoTDevice):
     def __init__(self, id, security_status):

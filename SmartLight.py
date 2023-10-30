@@ -1,4 +1,5 @@
 from IoTDevice import IoTDevice
+from Status import Status
 
 class SmartLight(IoTDevice):
     def __init__(self, id, brightness):
@@ -9,12 +10,17 @@ class SmartLight(IoTDevice):
         return self.__brightness 
 
     def set_brightness(self, brightness):
-        if self.__status == False and brightness > 0:
-            self.__status = True
-        elif self.__status == True and brightness == 0:
-            self.__status == False
+        if self._status == Status.Off and brightness > 0:
+            self._status = Status.On
+        elif self._status == Status.On and brightness == 0:
+            self._status == Status.Off
 
         self.__brightness = brightness
 
     def gradualDimming(self):
         pass
+
+sm = SmartLight(1, 10)
+sm.set_status(Status.Off)
+# sm.set_brightness(20)
+print(sm.get_status())
