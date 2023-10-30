@@ -14,8 +14,8 @@ class AutomationSystem:
         self.__sensor_data = []
     
     def addDevices(self):
-        sl = SmartLight(0, random.randint(0,100))
-        th = Thermostat(1, random.randint(10,27), 10, 27)
+        sl = SmartLight(0, 0)
+        th = Thermostat(1, 0, 10, 27)
         sc = SecurityCamera(2, "secure")
 
         self.__devices.append(sl)
