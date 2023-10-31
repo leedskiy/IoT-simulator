@@ -28,6 +28,8 @@ class AutomationSystem:
     def exec_automation_tasks(self):
         if self.__devices[2].get_motion():
             self.__devices[0].set_status(Status.On)
+            if self.__devices[0].get_brightness() == 0:
+                self.__devices[0].set_brightness(1)
 
     def randomize(self):        
         if random.randint(0,1):
