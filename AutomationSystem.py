@@ -18,7 +18,7 @@ class AutomationSystem:
 
     def add_devices(self):
         sl = SmartLight(0, 0)
-        th = Thermostat(1, 0, 10, 27)
+        th = Thermostat(1, 0, 0, 30)
         sc = SecurityCamera(2, "secure")
 
         self.__devices.append(sl)
@@ -34,8 +34,8 @@ class AutomationSystem:
             self.__devices[0].set_brightness(random.randint(0,100))
 
         if random.randint(0,1):
-            min_t = random.randint(10,27)
-            self.__devices[1].set_min_and_max_temp(min_t, random.randint(min_t,27))
+            min_t = random.randint(0,30)
+            self.__devices[1].set_min_and_max_temp(min_t, random.randint(min_t,30))
 
             self.__devices[1].set_temperature(random.randint(
                     self.__devices[1].get_min_temp(), self.__devices[1].get_max_temp()))

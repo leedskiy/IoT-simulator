@@ -23,7 +23,7 @@ class Thermostat(IoTDevice):
 
     def set_temperature(self, temperature):
         if self._status == Status.Off:
-            self._status == Status.On
+            self._status = Status.On
         
         if(self.__min_temp <= temperature and self.__max_temp >= temperature):
             self.__temperature = temperature

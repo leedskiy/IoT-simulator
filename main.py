@@ -10,7 +10,8 @@ class App():
         # AutomationSystem
         self.asys = AutomationSystem()
         self.asys.add_devices()
-        
+        self.devices = self.asys.get_devices()
+
         # root and frame
         self.root = tk.Tk()
         self.root.geometry('700x500')
@@ -22,9 +23,9 @@ class App():
         # automation
         self.automation_running = False
         self.update_gui()
-        automationButton = Button(self.mainframe, text="Automation ON/OFF", 
-            command=self.on_off_automation, padx=10, pady=10)
-        automationButton.pack()
+        self.automation_button = Button(self.mainframe, text="Automation ON/OFF", 
+                                        command=self.on_off_automation, padx=10, pady=5)
+        self.automation_button.pack()
         self.loop_thread = None
         
         self.text_block = Label(self.mainframe, text = "Automation Status: OFF", background='#dfdfdf', padx=10, pady=10)
@@ -38,6 +39,18 @@ class App():
         self.status_box.insert("1.0", self.status_text)
         self.status_box.pack()
         
+        # light
+        self.text_block2 = Label(self.mainframe, text = "Living room light brightness", background='#dfdfdf', padx=10, pady=10)
+        self.text_block2.pack()
+        self.slider1 = Scale(self.mainframe, from_=0, to=100, orient=HORIZONTAL, background='#dfdfdf', 
+                            highlightthickness=0, command=self.change_li_brigt)
+        self.slider1.pack()
+        light_button = Button(self.mainframe, text="Toggle ON/OFF", 
+                            command=self.on_off_light, padx=10, pady=5)
+        light_button.pack()
+        self.text_block3 = Label(self.mainframe, text = "Living room light - 0%", background='#dfdfdf', padx=10, pady=10)
+        self.text_block3.pack()
+
         self.root.mainloop()
 
     # automation
@@ -71,13 +84,25 @@ class App():
 
     # status box
     def update_status_box(self):
-        devices = self.asys.get_devices()
-        self.status_text = (f"Living room light status: {'ON' if devices[0].get_status() == Status.On else 'OFF'}\n" + 
-                            f"Living room thermostat status: {'ON' if devices[1].get_status() == Status.On else 'OFF'}\n" +
-                            f"Front door status: {'ON' if devices[2].get_status() == Status.On else 'OFF'}")
+        self.status_text = (f"Living room light status: {'ON' if self.devices[0].get_status() == Status.On else 'OFF'}\n" + 
+                            f"Living room thermostat status: {'ON' if self.devices[1].get_status() == Status.On else 'OFF'}\n" +
+                            f"Front door camera status: {'ON' if self.devices[2].get_status() == Status.On else 'OFF'}")
         self.status_box.delete("1.0", "end")
         self.status_box.insert("1.0", self.status_text)
 
+    # light
+    def change_li_brigt(self, num):
+        self.devices[0].set_brightness(int(num))
+        self.text_block3.config(text=f"Living room light - {self.devices[0].get_brightness()}%")
+        self.update_status_box()
+
+    def on_off_light(self):
+        if(self.devices[0].get_status() == Status.Off):
+            self.devices[0].set_status(Status.On)
+        else:
+            self.devices[0].set_status(Status.Off)
+
+        self.update_status_box()
 
 if __name__ == '__main__':
     App()
