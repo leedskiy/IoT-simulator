@@ -43,7 +43,7 @@ class AutomationSystem:
         if random.randint(0,1):
             self.__devices[2].detectMotion(True if random.randint(0,1) else False)
 
-    def randomize_detect_motion(self):
+    def randomize_detect_motion(self):  
         self.__devices[2].detectMotion(True if random.randint(0,1) else False)
 
     def gather_sensor_data(self):

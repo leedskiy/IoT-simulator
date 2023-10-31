@@ -14,7 +14,7 @@ class App():
 
         # root and frame
         self.root = tk.Tk()
-        self.root.geometry('700x500')
+        self.root.geometry('1000x700')
         self.root.title('IoT simulator RP0KRP')
         self.mainframe = tk.Frame(self.root, background='#dfdfdf')
         self.mainframe.pack(fill='both', expand=True)
@@ -35,7 +35,7 @@ class App():
         self.status_box = Text(self.mainframe, height = 3, width = 40, padx=10, pady=10)
         self.status_text = ("Living room light status: OFF\n" +
                             "Living room thermostat status: OFF\n" + 
-                            "Front door status: OFF")
+                            "Front door camera status: OFF")
         self.status_box.insert("1.0", self.status_text)
         self.status_box.pack()
         
@@ -45,9 +45,9 @@ class App():
         self.slider1 = Scale(self.mainframe, from_=0, to=100, orient=HORIZONTAL, background='#dfdfdf', 
                             highlightthickness=0, command=self.change_li_brigt)
         self.slider1.pack()
-        light_button = Button(self.mainframe, text="Toggle ON/OFF", 
+        self.light_button = Button(self.mainframe, text="Toggle ON/OFF", 
                             command=self.on_off_light, padx=10, pady=2)
-        light_button.pack()
+        self.light_button.pack()
         self.text_block3 = Label(self.mainframe, text = "Living room light - 0%", background='#dfdfdf', padx=10, pady=10)
         self.text_block3.pack()
 
@@ -59,9 +59,20 @@ class App():
         thermostat_button = Button(self.mainframe, text="Toggle ON/OFF", 
                             command=self.on_off_thermostat, padx=10, pady=2)
         thermostat_button.pack()
-        self.text_block4 = Label(self.mainframe, text = f"Living room thermostat - {self.devices[1].get_temperature()}C", background='#dfdfdf', padx=10, pady=10)
-        self.text_block4.pack()
+        self.text_block5 = Label(self.mainframe, text = f"Living room thermostat - {self.devices[1].get_temperature()}C", background='#dfdfdf', padx=10, pady=10)
+        self.text_block5.pack()
 
+        # camera
+        self.text_block6 = Label(self.mainframe, text = "Front door camera motion detection", background='#dfdfdf', padx=10, pady=5)
+        self.text_block6.pack()
+        self.motion_detect_button = Button(self.mainframe, text="Random detect motion", 
+                            command=self.detect_motion, padx=10, pady=2)
+        self.motion_detect_button.pack()
+        self.camera_button = Button(self.mainframe, text="Toggle ON/OFF", 
+                            command=self.on_off_camera, padx=10, pady=2)
+        self.camera_button.pack()
+        self.text_block7 = Label(self.mainframe, text = f"Front door camera motion - {'YES' if self.devices[2].getMotion() else 'NO'}", background='#dfdfdf', padx=10, pady=10)
+        self.text_block7.pack()
 
 
         self.root.mainloop()
@@ -120,7 +131,7 @@ class App():
     # thermostat
     def change_th_temp(self, num):
         self.devices[1].set_temperature(int(num))
-        self.text_block4.config(text=f"Living room thermostat - {self.devices[1].get_temperature()}C")
+        self.text_block5.config(text=f"Living room thermostat - {self.devices[1].get_temperature()}C")
         self.update_status_box()
 
     def on_off_thermostat(self):
@@ -128,6 +139,20 @@ class App():
             self.devices[1].set_status(Status.On)
         else:
             self.devices[1].set_status(Status.Off)
+
+        self.update_status_box()
+
+    # camera
+    def detect_motion(self):
+        self.asys.randomize_detect_motion()
+        self.text_block7.config(text=f"Front door camera motion - {'YES' if self.devices[2].getMotion() else 'NO'}")
+        self.update_status_box()
+
+    def on_off_camera(self):
+        if(self.devices[2].get_status() == Status.Off):
+            self.devices[2].set_status(Status.On)
+        else:
+            self.devices[2].set_status(Status.Off)
 
         self.update_status_box()
 

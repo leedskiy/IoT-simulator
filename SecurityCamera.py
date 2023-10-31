@@ -19,6 +19,6 @@ class SecurityCamera(IoTDevice):
 
     def detectMotion(self, motion):
         if self._status == Status.Off:
-            self._status == Status.On
+            self._status = Status.On
 
         self.__motion = motion
