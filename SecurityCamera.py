@@ -11,7 +11,7 @@ class SecurityCamera(IoTDevice):
     def get_security_status(self):
         return self.__security_status
 
-    def set_security_status(self):
+    def set_security_status(self, security_status):
         self.__security_status = security_status
 
     def get_motion(self):

@@ -14,7 +14,7 @@ class App():
 
         # root and frame
         self.root = tk.Tk()
-        self.root.geometry('1000x700')
+        self.root.geometry('1000x750')
         self.root.title('IoT simulator RP0KRP')
         self.mainframe = tk.Frame(self.root, background='#dfdfdf')
         self.mainframe.pack(fill='both', expand=True)
@@ -31,6 +31,11 @@ class App():
         self.text_block = Label(self.mainframe, text = "Automation Status: OFF", 
                 background='#dfdfdf', padx=10, pady=10)
         self.text_block.pack()
+
+        # randomize
+        self.randomize_button = Button(self.mainframe, text="Randomize", 
+                                        command=self.randomize, padx=10, pady=2)
+        self.randomize_button.pack()
 
         # status box
         self.status_box = Text(self.mainframe, height = 3, width = 40, padx=10, pady=10)
@@ -132,6 +137,16 @@ class App():
             self.asys.exec_automation_tasks()
             self.update_status_box()
         self.root.after(1000, self.update_gui)
+    
+    # randomize
+    def randomize(self):
+        self.asys.randomize()
+        self.update_status_box()
+        self.text_block3.config(text=f"Living room light - {self.devices[0].get_brightness()}%")
+        self.slider1.set(self.devices[0].get_brightness())
+        self.slider2.configure(from_=self.devices[1].get_min_temp(), to=self.devices[1].get_max_temp())
+        self.slider2.set(self.devices[1].get_temperature())
+        self.text_block7.config(text=f"Front door camera motion - {'YES' if self.devices[2].get_motion() else 'NO'}")
 
     # status box
     def update_status_box(self):

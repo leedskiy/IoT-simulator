@@ -37,13 +37,14 @@ class AutomationSystem:
 
         if random.randint(0,1):
             min_t = random.randint(0,30)
-            self.__devices[1].set_min_and_max_temp(min_t, random.randint(min_t,30))
+            self.__devices[1].set_min_temp(min_t)
+            self.__devices[1].set_max_temp(random.randint(min_t,30))
 
             self.__devices[1].set_temperature(random.randint(
                     self.__devices[1].get_min_temp(), self.__devices[1].get_max_temp()))
 
         if random.randint(0,1):
-            self.__devices[2].detectMotion(True if random.randint(0,1) else False)
+            self.__devices[2].detect_motion(True if random.randint(0,1) else False)
 
     def randomize_detect_motion(self):  
         self.__devices[2].detect_motion(True if random.randint(0,1) else False)
