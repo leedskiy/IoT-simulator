@@ -26,7 +26,7 @@ class AutomationSystem:
         self.__devices.append(sc)
 
     def exec_automation_tasks(self):
-        if self.__devices[2].getMotion():
+        if self.__devices[2].get_motion():
             self.__devices[0].set_status(Status.On)
 
     def randomize(self):        
@@ -44,7 +44,7 @@ class AutomationSystem:
             self.__devices[2].detectMotion(True if random.randint(0,1) else False)
 
     def randomize_detect_motion(self):  
-        self.__devices[2].detectMotion(True if random.randint(0,1) else False)
+        self.__devices[2].detect_motion(True if random.randint(0,1) else False)
 
     def get_sensor_data(self):
         return self.__sensor_data
@@ -53,7 +53,7 @@ class AutomationSystem:
         current_time = datetime.now().strftime("%H:%M:%S")
         self.__sensor_data.append("[" + str(date.today()) + " " + current_time + "] " + "Living room Light brightness: " + str(self.__devices[0].get_brightness()) + "%" + "\n")
         self.__sensor_data.append("[" + str(date.today())  + " " + current_time + "] " + "Living room Thermostat temperature: " + str(self.__devices[1].get_temperature()) + "C" + "\n")
-        self.__sensor_data.append("[" + str(date.today())  + " " + current_time + "] " + "Front door camera motion: " + str(self.__devices[2].getMotion()) + "\n\n")
+        self.__sensor_data.append("[" + str(date.today())  + " " + current_time + "] " + "Front door camera motion: " + str(self.__devices[2].get_motion()) + "\n\n")
     
     def store_sensor_data(self):
         try:

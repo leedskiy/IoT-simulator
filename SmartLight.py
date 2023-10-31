@@ -1,5 +1,6 @@
 from IoTDevice import IoTDevice
 from Status import Status
+import time
 
 class SmartLight(IoTDevice):
     def __init__(self, id, brightness):
@@ -17,5 +18,5 @@ class SmartLight(IoTDevice):
 
         self.__brightness = brightness
 
-    def gradualDimming(self):
+    def gradual_dimming(self):
         pass

@@ -17,8 +17,10 @@ class Thermostat(IoTDevice):
     def get_max_temp(self):
         return self.__max_temp
 
-    def set_min_and_max_temp(self, min_temp, max_temp):
+    def set_min_temp(self, min_temp):
         self.__min_temp = min_temp
+
+    def set_max_temp(self, max_temp):
         self.__max_temp = max_temp
 
     def set_temperature(self, temperature):

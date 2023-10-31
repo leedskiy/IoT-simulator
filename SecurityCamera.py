@@ -14,13 +14,13 @@ class SecurityCamera(IoTDevice):
     def set_security_status(self):
         self.__security_status = security_status
 
-    def getMotion(self):
+    def get_motion(self):
         if self._status == Status.Off:
             return False
-            
+
         return self.__motion
 
-    def detectMotion(self, motion):
+    def detect_motion(self, motion):
         if self._status == Status.Off:
             self._status = Status.On
 

@@ -71,7 +71,7 @@ class App():
         self.camera_button = Button(self.mainframe, text="Toggle ON/OFF", 
                             command=self.on_off_camera, padx=10, pady=2)
         self.camera_button.pack()
-        self.text_block7 = Label(self.mainframe, text = f"Front door camera motion - {'YES' if self.devices[2].getMotion() else 'NO'}", background='#dfdfdf', padx=10, pady=10)
+        self.text_block7 = Label(self.mainframe, text = f"Front door camera motion - {'YES' if self.devices[2].get_motion() else 'NO'}", background='#dfdfdf', padx=10, pady=10)
         self.text_block7.pack()
         
         # text
@@ -162,7 +162,7 @@ class App():
     # camera
     def detect_motion(self):
         self.asys.randomize_detect_motion()
-        self.text_block7.config(text=f"Front door camera motion - {'YES' if self.devices[2].getMotion() else 'NO'}")
+        self.text_block7.config(text=f"Front door camera motion - {'YES' if self.devices[2].get_motion() else 'NO'}")
         self.update_status_box()
 
     def on_off_camera(self):
