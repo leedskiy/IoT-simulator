@@ -24,7 +24,7 @@ class App():
         self.automation_running = False
         self.update_gui()
         self.automation_button = Button(self.mainframe, text="Automation ON/OFF", 
-                                        command=self.on_off_automation, padx=10, pady=5)
+                                        command=self.on_off_automation, padx=10, pady=2)
         self.automation_button.pack()
         self.loop_thread = None
         
@@ -40,16 +40,29 @@ class App():
         self.status_box.pack()
         
         # light
-        self.text_block2 = Label(self.mainframe, text = "Living room light brightness", background='#dfdfdf', padx=10, pady=10)
+        self.text_block2 = Label(self.mainframe, text = "Living room light brightness", background='#dfdfdf', padx=10, pady=5)
         self.text_block2.pack()
         self.slider1 = Scale(self.mainframe, from_=0, to=100, orient=HORIZONTAL, background='#dfdfdf', 
                             highlightthickness=0, command=self.change_li_brigt)
         self.slider1.pack()
         light_button = Button(self.mainframe, text="Toggle ON/OFF", 
-                            command=self.on_off_light, padx=10, pady=5)
+                            command=self.on_off_light, padx=10, pady=2)
         light_button.pack()
         self.text_block3 = Label(self.mainframe, text = "Living room light - 0%", background='#dfdfdf', padx=10, pady=10)
         self.text_block3.pack()
+
+        # thermostat
+        self.text_block4 = Label(self.mainframe, text = "Living room thermostat temperature", background='#dfdfdf', padx=10, pady=5)
+        self.text_block4.pack()
+        self.slider2 = Scale(self.mainframe, from_=self.devices[1].get_min_temp(), to=self.devices[1].get_max_temp(), orient=HORIZONTAL, background='#dfdfdf', highlightthickness=0, command=self.change_th_temp)
+        self.slider2.pack()
+        thermostat_button = Button(self.mainframe, text="Toggle ON/OFF", 
+                            command=self.on_off_thermostat, padx=10, pady=2)
+        thermostat_button.pack()
+        self.text_block4 = Label(self.mainframe, text = f"Living room thermostat - {self.devices[1].get_temperature()}C", background='#dfdfdf', padx=10, pady=10)
+        self.text_block4.pack()
+
+
 
         self.root.mainloop()
 
@@ -101,6 +114,20 @@ class App():
             self.devices[0].set_status(Status.On)
         else:
             self.devices[0].set_status(Status.Off)
+
+        self.update_status_box()
+
+    # thermostat
+    def change_th_temp(self, num):
+        self.devices[1].set_temperature(int(num))
+        self.text_block4.config(text=f"Living room thermostat - {self.devices[1].get_temperature()}C")
+        self.update_status_box()
+
+    def on_off_thermostat(self):
+        if(self.devices[1].get_status() == Status.Off):
+            self.devices[1].set_status(Status.On)
+        else:
+            self.devices[1].set_status(Status.Off)
 
         self.update_status_box()
 
