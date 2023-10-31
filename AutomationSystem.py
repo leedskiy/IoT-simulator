@@ -46,11 +46,14 @@ class AutomationSystem:
     def randomize_detect_motion(self):  
         self.__devices[2].detectMotion(True if random.randint(0,1) else False)
 
+    def get_sensor_data(self):
+        return self.__sensor_data
+
     def gather_sensor_data(self):
         current_time = datetime.now().strftime("%H:%M:%S")
         self.__sensor_data.append("[" + str(date.today()) + " " + current_time + "] " + "Living room Light brightness: " + str(self.__devices[0].get_brightness()) + "%" + "\n")
         self.__sensor_data.append("[" + str(date.today())  + " " + current_time + "] " + "Living room Thermostat temperature: " + str(self.__devices[1].get_temperature()) + "C" + "\n")
-        self.__sensor_data.append("[" + str(date.today())  + " " + current_time + "] " + "Front door camera motion: " + str(self.__devices[2].getMotion()) + "\n")
+        self.__sensor_data.append("[" + str(date.today())  + " " + current_time + "] " + "Front door camera motion: " + str(self.__devices[2].getMotion()) + "\n\n")
     
     def store_sensor_data(self):
         try:

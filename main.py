@@ -73,7 +73,22 @@ class App():
         self.camera_button.pack()
         self.text_block7 = Label(self.mainframe, text = f"Front door camera motion - {'YES' if self.devices[2].getMotion() else 'NO'}", background='#dfdfdf', padx=10, pady=10)
         self.text_block7.pack()
+        
+        # text
+        self.text_block8 = Label(self.mainframe, text = ("Automation rule: turn on lights " +
+                                "when motion is detected"), background='#dfdfdf', padx=10, pady=10)
+        self.text_block8.pack()
 
+        # sensor data
+        self.text_block9 = Label(self.mainframe, text = ("Sensor data box (5 sec update):"),
+                                 background='#dfdfdf', padx=10, pady=10)
+        self.text_block9.pack()
+
+        self.sensor_data_box = Text(self.mainframe, height=3, width = 70, padx=10, pady=10)
+        self.iter = -3
+        self.loop_thread2 = threading.Thread(target = self.call_gather_sensor_data, daemon=True)
+        self.loop_thread2.start()
+        self.sensor_data_box.pack()
 
         self.root.mainloop()
 
@@ -98,6 +113,8 @@ class App():
         if self.loop_thread:
             self.automation_running = False
             self.loop_thread.join()
+
+        self.asys.store_sensor_data()
         self.root.destroy()
 
     def update_gui(self):
@@ -155,6 +172,19 @@ class App():
             self.devices[2].set_status(Status.Off)
 
         self.update_status_box()
+
+    # sensor data
+    def call_gather_sensor_data(self):
+        while True:
+            self.asys.gather_sensor_data()
+            self.sensor_data_array = self.asys.get_sensor_data()
+            self.sensor_data_lines = ""
+            self.iter += 3
+            for i in range(self.iter, self.iter + 3):
+                self.sensor_data_lines += self.sensor_data_array[i]
+            self.sensor_data_box.delete("1.0", "end")
+            self.sensor_data_box.insert("1.0", self.sensor_data_lines)
+            time.sleep(5)
 
 if __name__ == '__main__':
     App()
