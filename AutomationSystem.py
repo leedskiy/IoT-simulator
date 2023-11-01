@@ -32,19 +32,16 @@ class AutomationSystem:
                 self.__devices[0].set_brightness(1)
 
     def randomize(self):        
-        if random.randint(0,1):
-            self.__devices[0].set_brightness(random.randint(0,100))
+        self.__devices[0].set_brightness(random.randint(0,100))
 
-        if random.randint(0,1):
-            min_t = random.randint(0,30)
-            self.__devices[1].set_min_temp(min_t)
-            self.__devices[1].set_max_temp(random.randint(min_t,30))
+        min_t = random.randint(0,30)
+        self.__devices[1].set_min_temp(min_t)
+        self.__devices[1].set_max_temp(random.randint(min_t,30))
 
-            self.__devices[1].set_temperature(random.randint(
-                    self.__devices[1].get_min_temp(), self.__devices[1].get_max_temp()))
+        self.__devices[1].set_temperature(random.randint(
+                self.__devices[1].get_min_temp(), self.__devices[1].get_max_temp()))
 
-        if random.randint(0,1):
-            self.__devices[2].detect_motion(True if random.randint(0,1) else False)
+        self.__devices[2].detect_motion(True if random.randint(0,1) else False)
 
     def randomize_detect_motion(self):  
         self.__devices[2].detect_motion(True if random.randint(0,1) else False)
