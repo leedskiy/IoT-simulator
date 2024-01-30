@@ -15,7 +15,7 @@ class App():
         # root and frame
         self.root = tk.Tk()
         self.root.geometry('1000x750')
-        self.root.title('IoT simulator RP0KRP')
+        self.root.title('IoT simulator')
         self.mainframe = tk.Frame(self.root, background='#dfdfdf')
         self.mainframe.pack(fill='both', expand=True)
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
